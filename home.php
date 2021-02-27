@@ -26,7 +26,7 @@ if (!isset($_SESSION['loggedin'])) {
 		<div class="content">
 			<h2>Home Page</h2>
 			<p>Welcome back, <?=$_SESSION['name']?>!</p>
-			<iframe src="planaworkout.php" title="plan a workout" width="100%" height="1000px" style="border:none;"></iframe>
+			<iframe src="planaworkout.php" title="plan a workout"></iframe>
 		</div>
 	</body>
 </html>
