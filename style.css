@@ -119,8 +119,15 @@ body.loggedin {
 }
 .content h2 {
   margin: 0;
-  padding: 25px 0;
+  padding: 15px 0;
   font-size: 22px;
+  border-bottom: 1px solid #e0e0e3;
+  color: #4a536e;
+}
+.content h3 {
+  margin: 5px;
+  padding: 10px
+  font-size: 15px;
   border-bottom: 1px solid #e0e0e3;
   color: #4a536e;
 }
@@ -148,4 +155,48 @@ iframe{
   height: 1020px;
   border: none; 
   position: absolute;
+  margin: 0px;
+  padding: 0px;
 }
+select{
+  float: right;
+  margin: 10px;
+  box-sizing: border-box;
+  margin: 5px;
+  border: 1px solid #aaa;
+  width: 100px;
+  height: 30px;
+}
+.chartcontainer{
+  height:35vh; 
+  width:35vw; 
+  float: right;
+  border: 3px solid #808080;
+  margin: 10px;
+  background: white;
+ 
+}
+.container{
+  float: left;
+  width: 450px;
+  margin: 10px;
+  border: 3px solid #808080;
+  padding: 5px;
+  background: white;
+}
+
+div.contentbox{
+  overflow: hidden;
+  background: white;
+  border: 6px solid #808080;
+
+
+}
+.textbox{
+  background: transparent;
+  border: transparent;
+  text-align: right;
+}
+td#sec{
+  text-align: right;
+} 

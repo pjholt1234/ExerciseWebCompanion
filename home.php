@@ -19,14 +19,19 @@ if (!isset($_SESSION['loggedin'])) {
 		<nav class="navtop">
 			<div>
 				<h1>Exercise Web Companion</h1>
-				<a href="profile.php"><i class="fas fa-user-circle"></i>Profile</a>
+				<a onclick="setURL('planaworkout.php')"><i class="fas fa-home"></i>Home</a>
+				<a onclick="setURL('calendar/calendar.php')"><i class="far fa-calendar-plus"></i>Calendar</a>
+				<a onclick="setURL('profile.php')"><i class="fas fa-user-circle"></i>Profile</a>
 				<a href="logout.php"><i class="fas fa-sign-out-alt"></i>Logout</a>
 			</div>
 		</nav>
 		<div class="content">
-			<h2>Home Page</h2>
-			<p>Welcome back, <?=$_SESSION['name']?>!</p>
-			<iframe src="planaworkout.php" title="plan a workout"></iframe>
+			<iframe src="planaworkout.php" id = "iframe" title="plan a workout"></iframe>
 		</div>
 	</body>
 </html>
+<script>
+function setURL(url){
+    document.getElementById('iframe').src = url;
+}
+</script>

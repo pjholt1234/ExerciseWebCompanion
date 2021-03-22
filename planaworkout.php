@@ -23,7 +23,7 @@
 
 	while ($row = $result->fetch_assoc()) {
 		$catagoryArr[] = $row;
-	}
+	};
 
 	//Get Array of workouts from db
 	$sql = "SELECT * FROM workouts WHERE user_made = '0' OR user_ID = '$userID'";
@@ -41,6 +41,7 @@
 	while ( $row = $result->fetch_assoc()){
 		$userWorkoutsArr[]=$row;
 	};
+
 
 	//check if userWorkoutsArr is empty to prevent error when passing to javascript
 	if (empty($userWorkoutsArr)) {
@@ -77,7 +78,11 @@
 
 </head>
 <body>
-	<form id= "sub" action="submit.php" method = "POST">
+	<div id="plans" class = "box">
+		<h1>Home Page - Welcome back, <?=$_SESSION['name']?>!</h1>
+		<p>Create Your Workout Plan Below - Select A Category And Add A Workout</p>
+	</div>
+	<form id= "sub" name = "plan" action="submit.php" method = "POST">
 
 		<input type="hidden" id="plans" class ="plans" name="plans" value="">
 		<div id ="main" class = "contentbox">
@@ -88,21 +93,43 @@
 			</div>
 
 			<div id="adder" class="buttonBox">
-				<label id ="select" class="select">Select A Category And Add A Workout</label><br>
 
-				<select class='select-css' name="workoutCat" id ="workoutCat">
-					<?php foreach ($catagoryArr as $row): ?>
-						<option value="<?= $row['catagory_ID'] ?>"><?=$row["catagory_name"]?></option>
-					<?php endforeach ?>
-				</select>
-				<select class='select-css' name="workout" id ="workout"></select>
-
-				<input type='text' class = "inputbox" id="timereps" placeholder ="" name="text"size="6">
-				<input type="text" class = "inputbox" id="weight" placeholder ="Weight - KG " name="text"size="6">
-				<input type='text' class ="planName" id="planName" placeholder ="Plan Name" name="planName"><br>
-
-				<input class='button' type='button' value='Add' id='Add'>
-				<input class='button' type='submit' value='Save'id='Save' name='Save'>
+				<table id= "uitable"style="width:100%">
+				  <tr>
+				    <td>
+				    	<label id ="select" class="select">Category:</label>	
+				    </td>
+				    <td>
+				    	<select class='select-css' name="workoutCat" id ="workoutCat">
+							<?php foreach ($catagoryArr as $row): ?>
+								<option value="<?= $row['catagory_ID'] ?>"><?=$row["catagory_name"]?></option>
+							<?php endforeach ?>
+						</select>
+				    </td>
+				    <td>
+				    	<input type='text' class ="planName" id="planName" placeholder ="Plan Name" name="planName" required>
+				    </td>
+				    <td class = "tdbtn">
+				    	<input class='button' type='button' value='Add' id='Add'>
+				    </td>
+				  </tr>
+				  <tr>
+				    <td>
+				    	<label id ="select" class="select">Workout:</label>
+				    </td>
+				    <td>
+				    	<select class='select-css' name="workout" id ="workout"></select>
+				    </td>
+				    <td>
+				    	<input type='text' class = "inputbox" id="timereps" placeholder ="" name="timereps" min="1" >
+						<input type="text" class = "inputbox" id="weight" placeholder ="Weight - KG " name="weight">
+				    </td>
+				    <td class = "tdbtn">
+				    	<input class='button' type='submit' value='Save'id='Save' name='Save'>
+				    </td>
+				  </tr>
+				</table>
+				
 
 			</div>
 
@@ -133,7 +160,7 @@
 		        </select>
 
 		        <input class='buttonSave' type='submit' value='Save'id='Save' name='Save'>
-		      </form>
+		    </form>
       </div>
    </div>
 
@@ -178,7 +205,7 @@
 	var userPlansArr = <?php echo json_encode($userPlansArr) ?>;  
 
 	$( function() {
-			$( "#accordion" ).accordion();
+		$( "#accordion" ).accordion();
 	});
 
 	//on load make sure that the drop downs have the contents loaded
@@ -199,6 +226,26 @@
 	$( "#workout" ).change(function() {
 		workoutChange();
 	});
+
+		//custom category
+	$( "#workoutCat" ).change(function() {
+		customCat();	
+	});
+
+		//close popup
+  	$(".close").click(function (){
+    	$("#createCategory").fadeOut("slow");
+  	});
+		
+
+	//custom workout
+	$( "#workout" ).change(function() {
+		customWorkout();   
+	});
+
+  	$(".close").click(function (){
+    	$("#createWorkout").fadeOut("slow");
+  	});
 
 	//Detect Delete btn click
 	$(document).on('click','.deletebtn', function(e){
@@ -297,26 +344,20 @@
 		};
 	});
 
-		//custom category
-		$( "#workoutCat" ).change(function() {
-			//get select option
+	updateAccordion();
+
+	function customCat(){
+		//get select option
 	    $( "select option:selected" ).each(function() {
 	    	//open popup
-	      if ($( this ).text() == "Custom") {
-					$("#createCategory").fadeIn("slow");     
-	      };
-	    });
-		});
+	      	if ($( this ).text() == "Custom") {
+				$("#createCategory").fadeIn("slow");     
+	      	};
+	    });	
+	};
 
-		//close popup
-  	$(".close").click(function (){
-    	$("#createCategory").fadeOut("slow");
-  	});
-		
-
-		//custom workout
-		$( "#workout" ).change(function() {
-	    $( "select option:selected" ).each(function() {
+	function customWorkout(){
+		 $( "select option:selected" ).each(function() {
 	      if ($( this ).text() == "Custom") {
 
 	      	//get selected category
@@ -339,16 +380,10 @@
 	      	$('#cat').val(selectedCat);
 
 	      	//fade in
-					$("#createWorkout").fadeIn("slow");     
+			$("#createWorkout").fadeIn("slow");     
 	      };
 	    });
-		});
-
-  	$(".close").click(function (){
-    	$("#createWorkout").fadeOut("slow");
-  	});
-
-	updateAccordion();
+	};
 
 	function createListElement(count,catName,workoutName,measurement,amount,weight){
 
@@ -466,7 +501,8 @@
 	};
 
 	//update the catagory and therefore the workout too
-	function catagoryChange(){      
+	function catagoryChange(){
+
 		//empty workout select
 		$('#workout').empty();
 		//loop through workout array and find all workouts under the chosen catagory
@@ -480,10 +516,9 @@
 				//jquerify the DOM object 'o' so we can use the html method
 				$(o).html(workoutArr[i].workout_name);
 				$("#workout").append(o);
-			};
-
-			
+			};	
 		};
+
 		var o = new Option("Custom", i);
 
 		//jquerify the DOM object 'o' so we can use the html method
@@ -539,12 +574,9 @@
 
 	//Save current workout plan
 	function savePlan(){
-		//Intialise plan variable
-		var planName = "";
+
 		var workoutsObj = [];
 		//Ensure the concat variable is empty
-
-
 			//Loop through all workouts
 			for (var i = 0; i < totalListItems(); i++) {
 
@@ -563,18 +595,15 @@
 					weight: $(tableID+" tr:first th:eq(6)").text()
 				};
 
-				workoutsObj.push(obj);
-				
-			};
-			
-			jsonStr = JSON.stringify(workoutsObj);
-			$("#plans").empty();
-			$("#plans").val(jsonStr);
-			$("#opt").empty();
-			$("#opt").val("Save");
+				workoutsObj.push(obj);		
+			};	
 
-
-		};
+		jsonStr = JSON.stringify(workoutsObj);
+		$("#plans").empty();
+		$("#plans").val(jsonStr);
+		$("#opt").empty();
+		$("#opt").val("Save");
+	};
 
 
 	//Applies sortable function
@@ -587,32 +616,41 @@
 		var measurement ="";
 		var weight = 0.00;
 
-		//loop through all workouts and set the measurement to the corresponding workout, EG pushups = reps, cycling = time
-		for(j=0; j<workoutArr.length;j++){
-			if (workoutArr[j].workout_name == getWorkoutName()) {
-				if (workoutArr[j].repstime == 0) {
-						//reps
-						measurement ="Reps";
-					} else {
-						//time
-						measurement ="Duration";
+		selectedCat = $( "#workoutCat option:selected" ).text();
+		selectedWorkout = $( "#workout option:selected" ).text();
+
+		if (selectedCat == "Custom") {
+			customCat();
+		} else if (selectedWorkout == "Custom"){
+			customWorkout();
+		} else{
+
+			//loop through all workouts and set the measurement to the corresponding workout, EG pushups = reps, cycling = time
+			for(j=0; j<workoutArr.length;j++){
+				if (workoutArr[j].workout_name == getWorkoutName()) {
+					if (workoutArr[j].repstime == 0) {
+							//reps
+							measurement ="Reps";
+						} else {
+							//time
+							measurement ="Duration";
+					};
 				};
 			};
-		};
 
-		//Validate Inputs
-		if ($("#timereps").val() == ""){
-			alert("Please Enter " + measurement);
-		}else {
-			if ($( "#weight" ).val() == "") {
-				weight = 0.00;
+			//Validate Inputs
+			if ($("#timereps").val() == ""){
+				alert("Please Enter " + measurement);
 			}else {
-				weight = $( "#weight" ).val();
-		};
-
-			//This count variable allows us to dynamically give an ID to each item within the list.
-			count++;
-			createListElement(count,getCatagoryName(),getWorkoutName(),measurement,$("#timereps").val(),weight);
+				if ($( "#weight" ).val() == "") {
+					weight = 0.00;
+				}else {
+					weight = $( "#weight" ).val();
+			};
+				//This count variable allows us to dynamically give an ID to each item within the list.
+				count++;
+				createListElement(count,getCatagoryName(),getWorkoutName(),measurement,$("#timereps").val(),weight);
+			};
 		};
 	});
 </script>
