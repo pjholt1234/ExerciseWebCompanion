@@ -20,6 +20,7 @@ if (!isset($_SESSION['loggedin'])) {
 			<div>
 				<h1>Exercise Web Companion</h1>
 				<a onclick="setURL('planaworkout.php')"><i class="fas fa-home"></i>Home</a>
+				<a onclick="setURL('tips&tricks/tips&tricks.php')"><i class="fab fa-youtube"></i></i>Tips & Tricks</a>
 				<a onclick="setURL('calendar/calendar.php')"><i class="far fa-calendar-plus"></i>Calendar</a>
 				<a onclick="setURL('profile.php')"><i class="fas fa-user-circle"></i>Profile</a>
 				<a href="logout.php"><i class="fas fa-sign-out-alt"></i>Logout</a>
