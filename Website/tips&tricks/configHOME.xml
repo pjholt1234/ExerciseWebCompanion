@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
   <data>
-    <servername>localhost</servername>
-	<username>root</username>
+    <servername></servername>
+	<username></username>
 	<password></password>
-	<dbname>exercise_web_companion</dbname>
+	<dbname></dbname>
   </data>
 </root>
