@@ -36,16 +36,19 @@ $leastFavCategory = findLeastFavCategory(getCategoryArr($con,$sql,$WorkoutsArr))
 <!DOCTYPE html>
 <html lang="en">
     <head>
-
         <title>Tips & Tricks</title>
         <meta charset="UTF-8" />					
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+        <link rel="stylesheet" href="tips&tricks.css">
     </head>
     <body>
         <div class="contentbox">
-            <h2>Tips & Tricks</h2>
+            <div id="plans" class = "box">
+                <h1>Tips & Tricks</h1>
+                <p>Your Youtube Content Tailoured Just For You Based On Your Workout Habits</p>
+            </div>
             <div class="row">
                 <div class="col-md-6 col-md-offset-3">
                     <form action="#">
@@ -54,7 +57,9 @@ $leastFavCategory = findLeastFavCategory(getCategoryArr($con,$sql,$WorkoutsArr))
                         <input type="hidden" id ="favCategory" value = <?=$favCategory?>>
                         <input type="hidden" id ="leastFavCategory" value =<?=$leastFavCategory?>>
                     </form>
-                    <div id="results"></div>
+                    <div id="plans" class = "box">
+                        <div id="results"></div>
+                    </div>
                 </div>
             </div>
         </div>
